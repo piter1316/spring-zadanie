@@ -40,10 +40,22 @@ public class DatabaseConnector {
 		
 		return schools;
 	}
+	public Iterable<Student> getStudents() {
+		String hql = "FROM Student";
+		Query query = session.createQuery(hql);
+		List students = query.list();
+		
+		return students;
+	}
 	
 	public void addSchool(School school) {
 		Transaction transaction = session.beginTransaction();
 		session.save(school);
+		transaction.commit();
+	}
+	public void addStudent(Student student) {
+		Transaction transaction = session.beginTransaction();
+		session.save(student);
 		transaction.commit();
 	}
 	
@@ -53,6 +65,16 @@ public class DatabaseConnector {
 		List<School> results = query.list();
 		Transaction transaction = session.beginTransaction();
 		for (School s : results) {
+			session.delete(s);
+		}
+		transaction.commit();
+	}
+	public void deleteStudent(String id) {
+		String hql = "FROM School S WHERE S.id=" + id;
+		Query query = session.createQuery(hql);
+		List<Student> results = query.list();
+		Transaction transaction = session.beginTransaction();
+		for (Student s : results) {
 			session.delete(s);
 		}
 		transaction.commit();
