@@ -23,7 +23,7 @@ public class SchoolClass implements java.io.Serializable {
 	
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="class_id")
-	private Set<Student> students;
+	private static Set<Student> students;
 
 	public SchoolClass() {
 		students = new HashSet<Student>();
@@ -36,7 +36,7 @@ public class SchoolClass implements java.io.Serializable {
 		this.students = students;
 	}
 
-	public void addStudent(Student newStudent) {
+	public static void addStudent(Student newStudent, String classID) {
 		students.add(newStudent);
 	}
 

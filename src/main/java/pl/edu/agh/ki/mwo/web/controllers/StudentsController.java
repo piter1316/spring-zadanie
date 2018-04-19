@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.edu.agh.ki.mwo.model.School;
+import pl.edu.agh.ki.mwo.model.SchoolClass;
 import pl.edu.agh.ki.mwo.model.Student;
 import pl.edu.agh.ki.mwo.persistence.DatabaseConnector;
 
@@ -37,6 +38,8 @@ public class StudentsController {
     public String createStudent(@RequestParam(value="studentName", required=false) String name,
     		@RequestParam(value="studentSurname", required=false) String surname,
     		@RequestParam(value="studentPesel", required=false) String pesel,
+    		@RequestParam(value="studentSchoolClass", required=false) String classID,
+    		
     		Model model, HttpSession session) {    	
     	if (session.getAttribute("userLogin") == null)
     		return "redirect:/Login";
@@ -46,11 +49,11 @@ public class StudentsController {
     	student.setSurname(surname);
     	student.setPesel(pesel);
     	
-    	DatabaseConnector.getInstance().addStudent(student);    	
+    	DatabaseConnector.getInstance().addStudent(student,classID);    	
        	model.addAttribute("students", DatabaseConnector.getInstance().getStudents());
     	model.addAttribute("message", "Nowy Student został dodany");
          	
-    	return "studentList";
+    	return "studentsList";
     }
     
     @RequestMapping(value="/DeleteStudent", method=RequestMethod.POST)
@@ -63,7 +66,7 @@ public class StudentsController {
        	model.addAttribute("schools", DatabaseConnector.getInstance().getStudents());
     	model.addAttribute("message", "Student został usunięty");
          	
-    	return "studentList";
+    	return "studentsList";
     }
 
 

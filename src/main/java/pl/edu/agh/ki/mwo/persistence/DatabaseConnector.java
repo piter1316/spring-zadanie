@@ -53,11 +53,7 @@ public class DatabaseConnector {
 		session.save(school);
 		transaction.commit();
 	}
-	public void addStudent(Student student) {
-		Transaction transaction = session.beginTransaction();
-		session.save(student);
-		transaction.commit();
-	}
+	
 	
 	public void deleteSchool(String schoolId) {
 		String hql = "FROM School S WHERE S.id=" + schoolId;
@@ -99,6 +95,20 @@ public class DatabaseConnector {
 			School school = results.get(0);
 			school.addClass(schoolClass);
 			session.save(school);
+		}
+		transaction.commit();
+	}
+	public void addStudent(Student student, String classID) {
+		String hql = "FROM Student S WHERE S.id=" + classID;
+		Query query = session.createQuery(hql);
+		List<Student> results = query.list();
+		Transaction transaction = session.beginTransaction();
+		if (results.size() == 0) {
+			session.save(student);
+		} else {
+			Student student1 = results.get(0);
+			SchoolClass.addStudent(student1,classID);
+			session.save(student1);
 		}
 		transaction.commit();
 	}
