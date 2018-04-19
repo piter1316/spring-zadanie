@@ -38,7 +38,7 @@ public class StudentsController {
     public String createStudent(@RequestParam(value="studentName", required=false) String name,
     		@RequestParam(value="studentSurname", required=false) String surname,
     		@RequestParam(value="studentPesel", required=false) String pesel,
-    		@RequestParam(value="studentSchoolClass", required=false) String classID,
+    		@RequestParam(value="studentSchoolClass", required=false) String class_Id,
     		
     		Model model, HttpSession session) {    	
     	if (session.getAttribute("userLogin") == null)
@@ -49,7 +49,7 @@ public class StudentsController {
     	student.setSurname(surname);
     	student.setPesel(pesel);
     	
-    	DatabaseConnector.getInstance().addStudent(student,classID);    	
+    	DatabaseConnector.getInstance().addStudent(student,class_Id);    	
        	model.addAttribute("students", DatabaseConnector.getInstance().getStudents());
     	model.addAttribute("message", "Nowy Student został dodany");
          	
@@ -57,13 +57,13 @@ public class StudentsController {
     }
     
     @RequestMapping(value="/DeleteStudent", method=RequestMethod.POST)
-    public String deleteStudent(@RequestParam(value="studentId", required=false) String id,
+    public String deleteStudent(@RequestParam(value="studentId", required=false) String studentId,
     		Model model, HttpSession session) {    	
     	if (session.getAttribute("userLogin") == null)
     		return "redirect:/Login";
     	
-    	DatabaseConnector.getInstance().deleteStudent(id);    	
-       	model.addAttribute("schools", DatabaseConnector.getInstance().getStudents());
+    	DatabaseConnector.getInstance().deleteStudent(studentId);    	
+       	model.addAttribute("students", DatabaseConnector.getInstance().getStudents());
     	model.addAttribute("message", "Student został usunięty");
          	
     	return "studentsList";

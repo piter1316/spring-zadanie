@@ -22,7 +22,9 @@ public class SchoolClass implements java.io.Serializable {
 	private String profile;
 	
 	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="class_id")
+	@JoinColumn(name="school_id")
+	
+	
 	private static Set<Student> students;
 
 	public SchoolClass() {

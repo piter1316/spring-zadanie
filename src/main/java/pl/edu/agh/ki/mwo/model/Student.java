@@ -8,7 +8,7 @@ public class Student implements java.io.Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private long id;
+	private String id;
 	
 	@Column
 	private String name;
@@ -19,12 +19,15 @@ public class Student implements java.io.Serializable {
 	@Column
 	private String pesel;
 	
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="class_id")
 	
-	public long getId() {
+	
+	public String getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
